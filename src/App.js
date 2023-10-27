@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+
+import MedicineInput from "./components/Medicine/AddMedicine/medicineInput";
+import MedicineProvider from "./components/store/MedicineProvider";
+import MedicineList from "./components/Medicine/MedicineList/MedicineList";
+import Header from "./components/Layout/Header";
+import CartProvider from "./components/store/CartProvider";
+import Cart from "./components/Cart/Cart";
 
 function App() {
+  const [cartIsShown, setCartIsShown] = useState(false);
+
+  const showCartHandler = () => {
+    setCartIsShown(true);
+  };
+  const hideCartHandler = () => {
+    setCartIsShown(false);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CartProvider>
+      <MedicineProvider>
+        {cartIsShown && <Cart onHideCart={hideCartHandler} />}
+        <Header onShowCart={showCartHandler} />
+        <MedicineInput />
+        <MedicineList />
+      </MedicineProvider>
+    </CartProvider>
   );
 }
 
